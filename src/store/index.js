@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VuexPersistence from 'vuex-persist'
+import VuexPersistence from 'vuex-persist'// 导入持久化模块
 const vuexLocal = new VuexPersistence({
   // 指定用的储存方式是本地储存
   storage: window.localStorage

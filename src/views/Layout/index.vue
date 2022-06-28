@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view />
+    <router-view class="main" />
     <van-tabbar route>
       <van-tabbar-item replace to="/home" icon="home-o">
         首页
@@ -45,10 +45,14 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.toutiao{
+.main {
+  padding-bottom: 100px;
+  background-color: #f5f7f9;
+}
+.toutiao {
   font-size: 40px;
 }
-/deep/.van-tabbar-item__text{
+/deep/.van-tabbar-item__text {
   font-size: 20px;
 }
 </style>
