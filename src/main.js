@@ -9,9 +9,10 @@ import 'amfe-flexible'
 // import '@/styles/reset.less'
 import '@/styles/index.less'
 import Myicon from '@/components/Myicon.vue'
-Vue.config.productionTip = false
 
+Vue.config.productionTip = false
 Vue.component('Myicon', Myicon)
+
 Vue.use(Vant)
 new Vue({
   router,

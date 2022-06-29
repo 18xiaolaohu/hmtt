@@ -67,13 +67,14 @@ export default {
   created () { },
   data () {
     return {
-      mobile: '13911111111', // 手机号
+      mobile: '15750694568', // 手机号
       code: '246810', // 短信验证码
       time: 60 * 1000, // time 属性表示倒计时总时长，单位为毫秒。
       isCountDownShow: false
     }
   },
   methods: {
+    //
     async onSubmit (values) {
       // console.log('submit', values)
       try {
