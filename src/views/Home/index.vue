@@ -3,7 +3,7 @@
     <!-- 搜索头 -->
     <van-nav-bar fixed>
       <template #title>
-        <van-button type="info" icon="search" round class="search-btn"
+        <van-button type="info" icon="search" round class="search-btn" to="/search"
           >搜索</van-button
         >
       </template>
@@ -67,7 +67,6 @@ export default {
       } else {
         try {
           const res = await getMyChannels()
-          console.log('res', res)
           this.channels = res.data.data.channels
         } catch (err) {
           console.log(err)

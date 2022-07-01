@@ -11,5 +11,5 @@ dayjs.extend(relativeTime)
  * @returns
  */
 export const dateformat = (time) => {
-  return time
+  return dayjs(time).fromNow()
 }

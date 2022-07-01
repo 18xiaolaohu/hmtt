@@ -46,7 +46,7 @@
 </template>
 
 <script>
-// import _ from 'lodash'
+import _ from 'lodash'
 import { setItem } from '@/utils/storage'
 import { getAllArticleList, saveChannels } from '@/api/home'
 const CHANNELS = 'CHANNELS'
@@ -66,7 +66,8 @@ export default {
     try {
       const res = await getAllArticleList()
       console.log(res)
-      this.recommendChannels = res.data.data.channels.filter(item => this.channels.every(item1 => item1.id !== item.id))
+      // this.recommendChannels = res.data.data.channels.filter(item => this.channels.every(item1 => item1.id !== item.id))
+      this.recommendChannels = _.differenceBy(res.data.data.channels, this.channels, 'id')
     } catch (err) {
       console.log(err)
     }
@@ -109,6 +110,7 @@ export default {
       async handler (newVal) {
         if (this.$store.state.user && this.$store.state.user.token) {
           // 登陆过
+          console.log(123)
           const arr = []
           newVal.forEach((item, index) => {
             arr.push({ id: item.id, seq: index })

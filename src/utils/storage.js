@@ -21,9 +21,9 @@ export function getItem (key) {
  */
 export function setItem (key, value) {
   if (typeof value === 'object') { // 复合数据类型
-    window.localStorage.getItem(key, JSON.stringify(value))
+    window.localStorage.setItem(key, JSON.stringify(value))
   } else {
-    window.localStorage.getItem(key, value)
+    window.localStorage.setItem(key, value)
   }
 }
 

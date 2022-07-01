@@ -36,6 +36,11 @@ export const getAllArticleList = () => {
   })
 }
 
+/**
+ * 频道数据持久化
+ * @param {*} channels
+ * @returns
+ */
 export const saveChannels = (channels) => {
   return request({
     url: 'user/channels',
