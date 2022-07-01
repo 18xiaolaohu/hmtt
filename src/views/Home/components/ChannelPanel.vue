@@ -46,8 +46,10 @@
 </template>
 
 <script>
-import { getAllArticleList } from '@/api/home'
-
+// import _ from 'lodash'
+import { setItem } from '@/utils/storage'
+import { getAllArticleList, saveChannels } from '@/api/home'
+const CHANNELS = 'CHANNELS'
 export default {
   name: 'ChannelPanel',
   props: {
@@ -86,6 +88,7 @@ export default {
     },
     onClick (index) {
       if (this.isCloseShow) {
+        if (index === 0) return // 推荐不能删，所以要排除掉
         // true  删除
         // 先拿 channels 的索引值，把它删除，再把它push到recommendChannels的后面
         const obj = this.channels[index]
@@ -101,7 +104,30 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    channels: {
+      async handler (newVal) {
+        if (this.$store.state.user && this.$store.state.user.token) {
+          // 登陆过
+          const arr = []
+          newVal.forEach((item, index) => {
+            arr.push({ id: item.id, seq: index })
+          })
+          console.log(arr)
+          try {
+            const res = await saveChannels(arr)
+            console.log(res)
+          } catch (err) {
+            console.log(err)
+          }
+        } else {
+          // 没有登陆过
+          setItem(CHANNELS, newVal)
+        }
+      },
+      deep: true// 深度监听
+    }
+  },
   filters: {},
   components: {}
 }

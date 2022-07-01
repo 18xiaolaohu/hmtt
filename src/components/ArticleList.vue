@@ -1,26 +1,36 @@
 <template>
   <van-cell-group>
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="onRefresh"
+      ref="pullrefresh"
+    >
       <van-list
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell
+        <!-- <van-cell
           :title="item.title"
           value="内容1111"
           label="描述信息"
           v-for="(item, index) in articleList"
           :key="index"
-        />
+        /> -->
+        <ArticleItem v-for="(item, index) in articleList"
+          :key="index" :article="item"></ArticleItem>
       </van-list>
     </van-pull-refresh>
   </van-cell-group>
 </template>
 
 <script>
+import ArticleItem from './ArticleItem.vue'
 import { getArticleList } from '@/api/home'
+// 这两个变量可以放data，但没有必要，因为只有需要写在template中，需要响应式的数据才有必要放data中，这样做性能下降
+let ele = null
+let scrollTop
 export default {
   name: 'ArticleList',
   props: {
@@ -31,6 +41,18 @@ export default {
   },
   created () {
     this.getArticleList()
+  },
+  // 记住滚动条
+  mounted () {
+    // 给有滚动条的pull-refresh绑定滚动时间，在滚动时记住最新的滚动位置
+    ele = this.$refs.pullrefresh.$el
+    this.$refs.pullrefresh.$el.addEventListener('scroll', function () {
+      scrollTop = this.scrollTop
+    })
+  },
+  // 在每次进入home页面时，把滚动条滚动到上一次记录的位置
+  activated () {
+    ele.scrollTop = scrollTop
   },
   data () {
     return {
@@ -79,7 +101,9 @@ export default {
   computed: {},
   watch: {},
   filters: {},
-  components: {}
+  components: {
+    ArticleItem
+  }
 }
 </script>
 
@@ -87,5 +111,8 @@ export default {
 .van-cell-group {
   margin-top: 174px;
 }
-
+/deep/.van-pull-refresh {
+  height: calc(100vh - 280px);
+  overflow: auto;
+}
 </style>

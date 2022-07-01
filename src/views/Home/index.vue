@@ -44,6 +44,9 @@
 import ChannelPanel from './components/ChannelPanel.vue'
 import ArticleList from '@/components/ArticleList.vue'
 import { getMyChannels } from '@/api/home'
+import { getItem } from '@/utils/storage'
+const CHANNELS = 'CHANNELS'
+
 export default {
   name: 'Home',
   created () {
@@ -58,12 +61,17 @@ export default {
   },
   methods: {
     async getMyChannels () {
-      try {
-        const res = await getMyChannels()
-        console.log('res', res)
-        this.channels = res.data.data.channels
-      } catch (err) {
-        console.log(err)
+      const channels = getItem(CHANNELS)
+      if (!(this.$store.state.user && this.$store.state.user.token) && channels) {
+        this.channels = channels
+      } else {
+        try {
+          const res = await getMyChannels()
+          console.log('res', res)
+          this.channels = res.data.data.channels
+        } catch (err) {
+          console.log(err)
+        }
       }
     }
   },
@@ -123,5 +131,4 @@ export default {
 .van-popup {
   padding-top: 1.2rem;
 }
-
 </style>
