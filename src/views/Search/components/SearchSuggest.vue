@@ -1,5 +1,17 @@
 <template>
-  <div>搜索建议</div>
+  <div>
+    <van-cell
+      icon="search"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="$emit('search', item)"
+    >
+      <template #title>
+        <span v-html="highlight(item)"></span>
+      </template>
+      ></van-cell
+    >
+  </div>
 </template>
 
 <script>
@@ -18,7 +30,12 @@ export default {
       list: []
     }
   },
-  methods: {},
+  methods: {
+    highlight (str) {
+      const reg = new RegExp(this.searchText, 'g')
+      return str.replace(reg, `<span style="color:red">${this.searchText}</span>`)
+    }
+  },
   computed: {},
   watch: {
     searchText: {

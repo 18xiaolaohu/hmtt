@@ -7,15 +7,19 @@
         placeholder="请输入搜索关键词"
         background="#3296fa"
         @cancel="$router.go(-1)"
-        @search="isSearch = true"
+        @search="onSearch"
         autofocus
         @focus="isSearch = false"
       />
     </form>
-    <SearchHistory v-if="searchText === ''"></SearchHistory>
+    <SearchHistory v-if="searchText === ''" @search="onSearch"></SearchHistory>
     <template v-else>
-      <SearcResult v-if="isSearch"></SearcResult>
-      <SearchSuggest v-else :searchText="searchText"></SearchSuggest>
+      <SearcResult v-if="isSearch" :searchText="searchText"></SearcResult>
+      <SearchSuggest
+        v-else
+        :searchText="searchText"
+        @search="onSearch"
+      ></SearchSuggest>
     </template>
   </div>
 </template>
@@ -32,7 +36,13 @@ export default {
       isSearch: false // 默认没有回车
     }
   },
-  methods: {},
+  methods: {
+    onSearch (str) {
+      this.searchText = str
+      this.isSearch = true
+      this.$store.commit('setSearchHistoryList', str)
+    }
+  },
   computed: {},
   watch: {},
   filters: {},
